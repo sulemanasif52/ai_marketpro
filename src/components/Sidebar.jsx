@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Megaphone, PenTool, MessageSquare, PieChart } from 'lucide-react'
+import { LayoutDashboard, Megaphone, PenTool, MessageSquare, PieChart, Settings as SettingsIcon } from 'lucide-react'
 
-const Sidebar = () => {
+const Sidebar = ({ onOpenSettings }) => {
     const location = useLocation()
 
     const navItems = [
         { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { path: '/campaigns', label: 'Campaigns', icon: Megaphone },
-        { path: '/content-gen', label: 'Content Gen', icon: PenTool },
+        { path: '/content-gen', label: 'Content Studio', icon: PenTool },
         { path: '/insights', label: 'Insights', icon: MessageSquare },
         { path: '/budget', label: 'Budget', icon: PieChart },
     ]
@@ -30,7 +30,7 @@ const Sidebar = () => {
                 <h1 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>AIMarket Pro</h1>
             </div>
 
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                 {navItems.map((item) => {
                     const Icon = item.icon
                     const isActive = location.pathname === item.path
@@ -58,6 +58,31 @@ const Sidebar = () => {
                     )
                 })}
             </nav>
+            
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
+                <button 
+                    onClick={onOpenSettings}
+                    style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        padding: '0.75rem 1rem',
+                        borderRadius: '8px',
+                        color: 'var(--text-secondary)',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'color 0.2s ease'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'white'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                >
+                    <SettingsIcon size={20} />
+                    <span>API Settings</span>
+                </button>
+            </div>
         </aside>
     )
 }

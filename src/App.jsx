@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
@@ -7,11 +7,14 @@ import Campaigns from './pages/Campaigns'
 import ContentGen from './pages/ContentGen'
 import CustomerInsights from './pages/CustomerInsights'
 import Budget from './pages/Budget'
+import Settings from './components/Settings'
 
 function App() {
+    const [settingsOpen, setSettingsOpen] = useState(false)
+
     return (
         <div className="app-container" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)' }}>
-            <Sidebar />
+            <Sidebar onOpenSettings={() => setSettingsOpen(true)} />
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginLeft: 'var(--sidebar-width)' }}>
                 <Header />
                 <main style={{ padding: '2rem', marginTop: 'var(--header-height)' }}>
@@ -25,6 +28,8 @@ function App() {
                     </Routes>
                 </main>
             </div>
+            
+            <Settings open={settingsOpen} onClose={() => setSettingsOpen(false)} />
         </div>
     )
 }

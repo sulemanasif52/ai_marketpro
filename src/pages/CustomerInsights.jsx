@@ -1,28 +1,41 @@
 import React, { useState } from 'react'
-import { Send, User, Bot, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react'
+import { Send, User, Bot, ThumbsUp, ThumbsDown, MessageSquare, Loader2 } from 'lucide-react'
+import { chatWithAI } from '../lib/api'
 
 const CustomerInsights = () => {
     const [messages, setMessages] = useState([
-        { id: 1, sender: 'ai', text: "Hello! I've analyzed your recent campaign data. What would you like to know about your customer sentiment?" },
+        { id: 1, role: 'assistant', text: "Hello! I've analyzed your recent campaign data. What would you like to know about your customer sentiment?" },
     ])
     const [input, setInput] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!input.trim()) return
 
-        // Add user message
-        const newMessages = [...messages, { id: Date.now(), sender: 'user', text: input }]
+        const userMsg = { id: Date.now(), role: 'user', text: input }
+        const newMessages = [...messages, userMsg]
         setMessages(newMessages)
         setInput('')
+        setLoading(true)
 
-        // Simulate AI response
-        setTimeout(() => {
+        try {
+            // Convert to format Groq expects: [{role: 'user', content: '...'}, ...]
+            const apiMessages = newMessages.map(m => ({ role: m.role, content: m.text }))
+            const responseText = await chatWithAI(apiMessages)
+            
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
-                sender: 'ai',
-                text: "Based on recent feedback, customers love the new summer collection but find the shipping costs too high. Sentiment is 85% positive overall."
+                role: 'assistant',
+                text: responseText
             }])
-        }, 1500)
+        } catch (error) {
+            setMessages(prev => [...prev, {
+                id: Date.now() + 1,
+                role: 'assistant',
+                text: `Error: ${error.message}`
+            }])
+        }
+        setLoading(false)
     }
 
     return (
@@ -62,31 +75,31 @@ const CustomerInsights = () => {
                         <div
                             key={msg.id}
                             style={{
-                                alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                                alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                                 maxWidth: '70%',
                                 display: 'flex',
                                 gap: '0.75rem',
-                                flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row'
+                                flexDirection: msg.role === 'user' ? 'row-reverse' : 'row'
                             }}
                         >
                             <div style={{
                                 width: '32px',
                                 height: '32px',
                                 borderRadius: '50%',
-                                background: msg.sender === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
+                                background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 flexShrink: 0
                             }}>
-                                {msg.sender === 'user' ? <User size={16} color="white" /> : <Bot size={16} color="var(--text-secondary)" />}
+                                {msg.role === 'user' ? <User size={16} color="white" /> : <Bot size={16} color="var(--text-secondary)" />}
                             </div>
 
                             <div style={{
                                 padding: '1rem',
                                 borderRadius: '12px',
-                                background: msg.sender === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
-                                color: msg.sender === 'user' ? 'white' : 'var(--text-primary)',
+                                background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
+                                color: msg.role === 'user' ? 'white' : 'var(--text-primary)',
                                 lineHeight: 1.5
                             }}>
                                 {msg.text}
@@ -101,8 +114,9 @@ const CustomerInsights = () => {
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                            placeholder="Ask about customer trends..."
+                            onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
+                            disabled={loading}
+                            placeholder={loading ? "AI is thinking..." : "Ask about customer trends..."}
                             style={{
                                 flex: 1,
                                 padding: '0.75rem 1rem',
@@ -116,9 +130,10 @@ const CustomerInsights = () => {
                         <button
                             className="btn-primary"
                             onClick={handleSend}
-                            style={{ width: '48px', height: '48px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            disabled={loading}
+                            style={{ width: '48px', height: '48px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: loading ? 0.7 : 1 }}
                         >
-                            <Send size={20} />
+                            {loading ? <Loader2 className="spin" size={20} /> : <Send size={20} />}
                         </button>
                     </div>
                 </div>

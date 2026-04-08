@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Plus, Search, MoreHorizontal, PlayCircle, PauseCircle, CheckCircle } from 'lucide-react'
+import { Plus, Search, MoreHorizontal, PlayCircle, PauseCircle, CheckCircle, Instagram, X, Loader2, Image as ImageIcon } from 'lucide-react'
+import { publishToInstagram } from '../lib/api'
 
 const campaignsData = [
     { id: 1, name: 'Summer Sale 2026', status: 'Active', budget: '$5,000', spend: '$2,100', roi: '145%', platform: 'Facebook' },
@@ -45,8 +46,71 @@ const StatusBadge = ({ status }) => {
     )
 }
 
+const PublishModal = ({ open, campaign, onClose }) => {
+    const [imageUrl, setImageUrl] = useState('')
+    const [caption, setCaption] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState(false)
+
+    if (!open) return null
+
+    const handlePublish = async () => {
+        if (!imageUrl) return setError("Please provide an image URL.")
+        setLoading(true); setError(''); setSuccess(false)
+        try {
+            await publishToInstagram({ imageUrl, caption })
+            setSuccess(true)
+            setTimeout(() => { setSuccess(false); onClose() }, 2000)
+        } catch (err) {
+            setError(err.message)
+        }
+        setLoading(false)
+    }
+
+    return (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
+            <div className="card glass-panel" style={{ width: '500px', padding: '2rem', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                <button onClick={onClose} style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                    <X size={20} />
+                </button>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <Instagram size={22} color="#E1306C" /> Publish to Instagram
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>Campaign: <strong>{campaign?.name}</strong></p>
+
+                {error && <div style={{ padding: '0.75rem', background: 'rgba(248,81,73,0.1)', border: '1px solid rgba(248,81,73,0.3)', borderRadius: '8px', color: 'var(--accent-danger)', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
+                {success && <div style={{ padding: '0.75rem', background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.3)', borderRadius: '8px', color: 'var(--accent-success)', marginBottom: '1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={16} /> Successfully published to Instagram!</div>}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 500, fontSize: '0.9rem' }}>Image URL (Publicly accessible)</label>
+                        <div style={{ position: 'relative' }}>
+                            <ImageIcon size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
+                            <input type="text" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://example.com/ad.png" style={{ width: '100%', padding: '0.65rem 0.65rem 0.65rem 2.25rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box' }} />
+                        </div>
+                    </div>
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 500, fontSize: '0.9rem' }}>Caption</label>
+                        <textarea rows={4} value={caption} onChange={e => setCaption(e.target.value)} placeholder="Sale starts now! 🚀 #summer" style={{ width: '100%', padding: '0.65rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box', resize: 'vertical' }} />
+                    </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+                    <button style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontWeight: 600, cursor: 'pointer' }} onClick={onClose}>Cancel</button>
+                    <button className="btn-primary" onClick={handlePublish} disabled={loading} style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}>
+                        {loading ? <Loader2 className="spin" size={18} /> : <Instagram size={18} />}
+                        {loading ? 'Publishing...' : 'Publish Now'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const Campaigns = () => {
     const [searchTerm, setSearchTerm] = useState('')
+    const [publishModalData, setPublishModalData] = useState(null)
 
     return (
         <div className="page-container">
@@ -77,7 +141,8 @@ const Campaigns = () => {
                                 border: '1px solid var(--border-color)',
                                 borderRadius: '8px',
                                 color: 'var(--text-primary)',
-                                fontFamily: 'inherit'
+                                fontFamily: 'inherit',
+                                boxSizing: 'border-box'
                             }}
                         />
                     </div>
@@ -107,9 +172,16 @@ const Campaigns = () => {
                                     <td style={{ padding: '1rem' }}>{campaign.spend}</td>
                                     <td style={{ padding: '1rem', color: 'var(--accent-success)' }}>{campaign.roi}</td>
                                     <td style={{ padding: '1rem' }}>
-                                        <button style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', padding: '0.25rem' }}>
-                                            <MoreHorizontal size={18} />
-                                        </button>
+                                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                            <button 
+                                                onClick={() => setPublishModalData(campaign)}
+                                                style={{ background: 'rgba(225, 48, 108, 0.1)', border: '1px solid rgba(225, 48, 108, 0.3)', color: '#E1306C', padding: '0.35rem 0.75rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
+                                                <Instagram size={14} /> Publish
+                                            </button>
+                                            <button style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', padding: '0.25rem', cursor: 'pointer' }}>
+                                                <MoreHorizontal size={18} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -117,8 +189,17 @@ const Campaigns = () => {
                     </table>
                 </div>
             </div>
+            
+            <PublishModal open={!!publishModalData} campaign={publishModalData} onClose={() => setPublishModalData(null)} />
         </div>
     )
+}
+
+// Spin animation for modal
+if (!document.getElementById('spin-style')) {
+  const s = document.createElement('style'); s.id = 'spin-style'
+  s.textContent = `@keyframes spin{100%{transform:rotate(360deg)}}.spin{animation:spin 1s linear infinite}`
+  document.head.appendChild(s)
 }
 
 export default Campaigns
