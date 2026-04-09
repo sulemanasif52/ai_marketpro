@@ -5,7 +5,7 @@ const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }) => {
     const isPositive = trend === 'up'
 
     return (
-        <div className="card glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', overflow: 'hidden' }}>
+        <div className="card glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', overflow: 'hidden', padding: '1.5rem', background: 'var(--bg-primary)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '0.25rem' }}>{title}</p>
@@ -13,9 +13,11 @@ const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }) => {
                 </div>
                 <div style={{
                     padding: '0.75rem',
-                    borderRadius: '12px',
-                    background: `rgba(${color}, 0.1)`,
-                    color: `rgb(${color})`
+                    borderRadius: '0',
+                    border: '2px solid var(--border-color)',
+                    background: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    boxShadow: '4px 4px 0px 0px var(--border-color)'
                 }}>
                     <Icon size={24} />
                 </div>
@@ -35,17 +37,7 @@ const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }) => {
                 <span style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>vs last month</span>
             </div>
 
-            {/* Decorative gradient blob */}
-            <div style={{
-                position: 'absolute',
-                top: '-50%',
-                right: '-50%',
-                width: '100%',
-                height: '100%',
-                background: `radial-gradient(circle, rgba(${color}, 0.15) 0%, transparent 70%)`,
-                zIndex: 0,
-                pointerEvents: 'none'
-            }} />
+
         </div>
     )
 }

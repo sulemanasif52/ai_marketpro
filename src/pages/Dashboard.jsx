@@ -69,18 +69,18 @@ const Dashboard = () => {
                     <AreaChart data={data}>
                         <defs>
                             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#58a6ff" stopOpacity={0.3} />
-                                <stop offset="95%" stopColor="#58a6ff" stopOpacity={0} />
+                                <stop offset="0%" stopColor="#000000" stopOpacity={1} />
+                                <stop offset="100%" stopColor="#0a0a0a" stopOpacity={1} />
                             </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
                         <XAxis dataKey="name" stroke="var(--text-tertiary)" tickLine={false} axisLine={false} />
                         <YAxis stroke="var(--text-tertiary)" tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
                         <Tooltip
-                            contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '8px' }}
+                            contentStyle={{ background: 'var(--bg-secondary)', border: '2px solid var(--border-color)', borderRadius: '0' }}
                             itemStyle={{ color: 'var(--text-primary)' }}
                         />
-                        <Area type="monotone" dataKey="revenue" stroke="var(--accent-primary)" strokeWidth={2} fillOpacity={1} fill="url(#colorRevenue)" />
+                        <Area type="step" dataKey="revenue" stroke="#000" strokeWidth={4} fillOpacity={1} fill="#0a0a0a" />
                     </AreaChart>
                 </ResponsiveContainer>
             </div>

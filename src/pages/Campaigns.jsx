@@ -34,7 +34,7 @@ const StatusBadge = ({ status }) => {
             alignItems: 'center',
             gap: '0.375rem',
             padding: '0.25rem 0.75rem',
-            borderRadius: '9999px',
+            borderRadius: '0',
             fontSize: '0.75rem',
             fontWeight: '600',
             color: color,
@@ -79,25 +79,25 @@ const PublishModal = ({ open, campaign, onClose }) => {
                 </h2>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>Campaign: <strong>{campaign?.name}</strong></p>
 
-                {error && <div style={{ padding: '0.75rem', background: 'rgba(248,81,73,0.1)', border: '1px solid rgba(248,81,73,0.3)', borderRadius: '8px', color: 'var(--accent-danger)', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
-                {success && <div style={{ padding: '0.75rem', background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.3)', borderRadius: '8px', color: 'var(--accent-success)', marginBottom: '1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={16} /> Successfully published to Instagram!</div>}
+                {error && <div style={{ padding: '0.75rem', background: 'rgba(248,81,73,0.1)', border: '2px solid rgba(248,81,73,0.3)', borderRadius: '0', color: 'var(--accent-danger)', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
+                {success && <div style={{ padding: '0.75rem', background: 'rgba(63,185,80,0.1)', border: '2px solid rgba(63,185,80,0.3)', borderRadius: '0', color: 'var(--accent-success)', marginBottom: '1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={16} /> Successfully published to Instagram!</div>}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 500, fontSize: '0.9rem' }}>Image URL (Publicly accessible)</label>
                         <div style={{ position: 'relative' }}>
                             <ImageIcon size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
-                            <input type="text" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://example.com/ad.png" style={{ width: '100%', padding: '0.65rem 0.65rem 0.65rem 2.25rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box' }} />
+                            <input type="text" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://example.com/ad.png" style={{ width: '100%', padding: '0.65rem 0.65rem 0.65rem 2.25rem', borderRadius: '0', background: 'var(--bg-primary)', border: '2px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.85rem', boxSizing: 'border-box' }} />
                         </div>
                     </div>
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 500, fontSize: '0.9rem' }}>Caption</label>
-                        <textarea rows={4} value={caption} onChange={e => setCaption(e.target.value)} placeholder="Sale starts now! 🚀 #summer" style={{ width: '100%', padding: '0.65rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box', resize: 'vertical' }} />
+                        <textarea rows={4} value={caption} onChange={e => setCaption(e.target.value)} placeholder="Sale starts now! 🚀 #summer" style={{ width: '100%', padding: '0.65rem', borderRadius: '0', background: 'var(--bg-primary)', border: '2px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.85rem', boxSizing: 'border-box', resize: 'vertical' }} />
                     </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-                    <button style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontWeight: 600, cursor: 'pointer' }} onClick={onClose}>Cancel</button>
+                    <button style={{ flex: 1, padding: '0.75rem', borderRadius: '0', background: 'var(--bg-primary)', border: '2px solid var(--border-color)', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }} onClick={onClose}>Cancel</button>
                     <button className="btn-primary" onClick={handlePublish} disabled={loading} style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}>
                         {loading ? <Loader2 className="spin" size={18} /> : <Instagram size={18} />}
                         {loading ? 'Publishing...' : 'Publish Now'}
@@ -138,8 +138,8 @@ const Campaigns = () => {
                                 width: '100%',
                                 padding: '0.75rem 1rem 0.75rem 2.5rem',
                                 background: 'var(--bg-primary)',
-                                border: '1px solid var(--border-color)',
-                                borderRadius: '8px',
+                                border: '2px solid var(--border-color)',
+                                borderRadius: '0',
                                 color: 'var(--text-primary)',
                                 fontFamily: 'inherit',
                                 boxSizing: 'border-box'
@@ -152,7 +152,7 @@ const Campaigns = () => {
                 <div style={{ overflowX: 'auto' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
-                            <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
+                            <tr style={{ borderBottom: '2px solid var(--border-color)' }}>
                                 <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Campaign Name</th>
                                 <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Status</th>
                                 <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Platform</th>
@@ -164,7 +164,7 @@ const Campaigns = () => {
                         </thead>
                         <tbody>
                             {campaignsData.map((campaign) => (
-                                <tr key={campaign.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.2s' }}>
+                                <tr key={campaign.id} style={{ borderBottom: '2px solid var(--border-color)', transition: 'background 0.2s' }}>
                                     <td style={{ padding: '1rem', fontWeight: 500 }}>{campaign.name}</td>
                                     <td style={{ padding: '1rem' }}><StatusBadge status={campaign.status} /></td>
                                     <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>{campaign.platform}</td>
@@ -175,7 +175,7 @@ const Campaigns = () => {
                                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                                             <button 
                                                 onClick={() => setPublishModalData(campaign)}
-                                                style={{ background: 'rgba(225, 48, 108, 0.1)', border: '1px solid rgba(225, 48, 108, 0.3)', color: '#E1306C', padding: '0.35rem 0.75rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
+                                                style={{ background: 'rgba(225, 48, 108, 0.1)', border: '2px solid rgba(225, 48, 108, 0.3)', color: '#E1306C', padding: '0.35rem 0.75rem', borderRadius: '0', fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
                                                 <Instagram size={14} /> Publish
                                             </button>
                                             <button style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', padding: '0.25rem', cursor: 'pointer' }}>

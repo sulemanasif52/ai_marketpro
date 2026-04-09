@@ -21,7 +21,7 @@ const Sidebar = ({ onOpenSettings }) => {
             left: 0,
             top: 0,
             background: 'var(--bg-secondary)',
-            borderRight: '1px solid var(--border-color)',
+            borderRight: '2px solid var(--border-color)',
             padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column'
@@ -44,22 +44,22 @@ const Sidebar = ({ onOpenSettings }) => {
                                 alignItems: 'center',
                                 gap: '0.75rem',
                                 padding: '0.75rem 1rem',
-                                borderRadius: '8px',
-                                color: isActive ? 'white' : 'var(--text-secondary)',
-                                background: isActive ? 'linear-gradient(90deg, rgba(88, 166, 255, 0.1), transparent)' : 'transparent',
-                                borderLeft: isActive ? '3px solid var(--accent-primary)' : '3px solid transparent',
+                                borderRadius: '0',
+                                color: isActive ? 'var(--bg-primary)' : 'var(--text-primary)',
+                                background: isActive ? 'var(--text-primary)' : 'transparent',
+                                border: isActive ? '2px solid var(--border-color)' : '2px solid transparent',
                                 textDecoration: 'none',
                                 transition: 'all 0.2s ease'
                             }}
                         >
-                            <Icon size={20} color={isActive ? 'var(--accent-primary)' : 'currentColor'} />
-                            <span style={{ fontWeight: isActive ? 500 : 400 }}>{item.label}</span>
+                            <Icon size={20} color={isActive ? 'var(--bg-primary)' : 'currentColor'} />
+                            <span style={{ fontWeight: isActive ? 800 : 600, fontFamily: 'var(--font-mono)' }}>{item.label}</span>
                         </Link>
                     )
                 })}
             </nav>
             
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
+            <div style={{ borderTop: '2px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
                 <button 
                     onClick={onOpenSettings}
                     style={{
@@ -68,19 +68,19 @@ const Sidebar = ({ onOpenSettings }) => {
                         alignItems: 'center',
                         gap: '0.75rem',
                         padding: '0.75rem 1rem',
-                        borderRadius: '8px',
-                        color: 'var(--text-secondary)',
+                        borderRadius: '0',
+                        color: 'var(--text-primary)',
                         background: 'transparent',
-                        border: 'none',
+                        border: '2px solid transparent',
                         cursor: 'pointer',
                         textAlign: 'left',
                         transition: 'color 0.2s ease'
                     }}
-                    onMouseEnter={e => e.currentTarget.style.color = 'white'}
-                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--text-primary)'; e.currentTarget.style.color = 'var(--bg-primary)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-primary)'; }}
                 >
                     <SettingsIcon size={20} />
-                    <span>API Settings</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>API Settings</span>
                 </button>
             </div>
         </aside>

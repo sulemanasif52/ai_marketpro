@@ -8,9 +8,9 @@ const Budget = () => {
     const [displayBudget, setDisplayBudget] = useState(30)
 
     const data = [
-        { name: 'Social Media', value: socialBudget, color: '#58a6ff' },
-        { name: 'Search Ads', value: searchBudget, color: '#bc8cff' },
-        { name: 'Display Network', value: displayBudget, color: '#3fb950' },
+        { name: 'Social Media', value: socialBudget, color: 'var(--accent-primary)' },
+        { name: 'Search Ads', value: searchBudget, color: 'var(--text-secondary)' },
+        { name: 'Display Network', value: displayBudget, color: 'var(--accent-success)' },
     ]
 
     return (
@@ -71,7 +71,7 @@ const Budget = () => {
                         </div>
                     </div>
 
-                    <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(210, 153, 34, 0.1)', borderRadius: '8px', border: '1px solid rgba(210, 153, 34, 0.2)', display: 'flex', gap: '0.75rem' }}>
+                    <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(210, 153, 34, 0.1)', borderRadius: '0', border: '2px solid rgba(210, 153, 34, 0.2)', display: 'flex', gap: '0.75rem' }}>
                         <AlertCircle size={20} color="var(--accent-warning)" />
                         <div>
                             <h4 style={{ color: 'var(--accent-warning)', margin: 0 }}>AI Recommendation</h4>
@@ -100,7 +100,7 @@ const Budget = () => {
                                     ))}
                                 </Pie>
                                 <Tooltip
-                                    contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '8px' }}
+                                    contentStyle={{ background: 'var(--bg-secondary)', border: '2px solid var(--border-color)', borderRadius: '0' }}
                                     itemStyle={{ color: 'var(--text-primary)' }}
                                 />
                             </PieChart>

@@ -53,7 +53,7 @@ const Settings = ({ open, onClose }) => {
                 value={vals[f.key] || ''}
                 onChange={e => setVals(p => ({ ...p, [f.key]: e.target.value }))}
                 placeholder={f.hint}
-                style={{ width: '100%', padding: '0.65rem', borderRadius: '8px', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '0.65rem', borderRadius: '0', background: 'var(--bg-primary)', border: '2px solid var(--border-color)', color: 'white', fontSize: '0.85rem', boxSizing: 'border-box' }}
               />
             </div>
           ))}

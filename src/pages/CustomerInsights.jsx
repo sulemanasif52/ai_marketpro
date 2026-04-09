@@ -63,7 +63,7 @@ const CustomerInsights = () => {
 
             {/* Chat Area */}
             <div className="card glass-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
+                <div style={{ padding: '1.5rem', borderBottom: '2px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <Bot size={24} color="var(--accent-primary)" />
                         AI Insight Analyst
@@ -85,7 +85,7 @@ const CustomerInsights = () => {
                             <div style={{
                                 width: '32px',
                                 height: '32px',
-                                borderRadius: '50%',
+                                borderRadius: '0',
                                 background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -97,7 +97,7 @@ const CustomerInsights = () => {
 
                             <div style={{
                                 padding: '1rem',
-                                borderRadius: '12px',
+                                borderRadius: '0',
                                 background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--bg-tertiary)',
                                 color: msg.role === 'user' ? 'white' : 'var(--text-primary)',
                                 lineHeight: 1.5
@@ -108,7 +108,7 @@ const CustomerInsights = () => {
                     ))}
                 </div>
 
-                <div style={{ padding: '1.5rem', borderTop: '1px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
+                <div style={{ padding: '1.5rem', borderTop: '2px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <input
                             type="text"
@@ -120,10 +120,10 @@ const CustomerInsights = () => {
                             style={{
                                 flex: 1,
                                 padding: '0.75rem 1rem',
-                                borderRadius: '8px',
+                                borderRadius: '0',
                                 background: 'var(--bg-primary)',
-                                border: '1px solid var(--border-color)',
-                                color: 'white',
+                                border: '2px solid var(--border-color)',
+                                color: 'var(--text-primary)',
                                 fontFamily: 'inherit'
                             }}
                         />
